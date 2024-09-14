@@ -10,8 +10,10 @@ public class Loan {
 	private boolean first_apartment;
 	private int number_of_residents;
 	private String uuid;
+	private String document_base46;
+	
 	public Loan(double price, String currency, double area, double interest, int years, double loan_participation,
-			boolean first_apartment, int number_of_residents, String uuid) {
+			boolean first_apartment, int number_of_residents, String uuid, String document_base64) {
 		super();
 		this.price = price;
 		this.currency = currency;
@@ -22,6 +24,7 @@ public class Loan {
 		this.first_apartment = first_apartment;
 		this.number_of_residents = number_of_residents;
 		this.uuid = uuid;
+		this.document_base46 = document_base64;
 	}
 	public double getPrice() {
 		return price;
@@ -76,6 +79,12 @@ public class Loan {
 	}
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+	public String getDocument_base46() {
+		return document_base46;
+	}
+	public void setDocument_base46(String document_base46) {
+		this.document_base46 = document_base46;
 	}
 	@Override
 	public String toString() {

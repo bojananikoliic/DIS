@@ -61,6 +61,29 @@ public class MainController {
 			return res;
 		}
 		
+		Document d = new Document(newLoan.getDocument_base46());
+		System.out.println(d);
+		RestTemplate rt2 = new RestTemplate();
+		ResponseEntity<String> responseEntity2 = rt2.postForEntity(
+				"http://172.17.0.7:8006/documentStorage/newDocument", 
+				d, 
+				String.class
+		);
+		
+		
+		Payment pay = new Payment(
+				(float) (newLoan.getPrice() - newLoan.getLoan_participation()),
+				(float) newLoan.getInterest() / 100,
+				newLoan.getYears()
+				);
+		RestTemplate rt3 = new RestTemplate();
+		ResponseEntity<Object> responseEntity3 = rt3.postForEntity(
+				"http://172.17.0.8:8007/paymentCalculator/newPaymentCalculation", 
+				pay, 
+				Object.class
+		);
+		HashMap<String, Double> response2 = (HashMap<String, Double>) responseEntity3.getBody();
+		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://172.17.0.4:3306/bank_loan", "Bojana", "Bojana234");
@@ -86,6 +109,7 @@ public class MainController {
 		
 		HashMap<String, String> res = new HashMap<String, String>();
 		res.put("message", "Loan request successfully submitted");
+		res.put("payment", Double.toString(response2.get("payment")));
 		return res;
 	}
 

@@ -1,22 +1,23 @@
-package dis.loan;
+package bojana.documentstorage;
+
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.sql.*;
-
 @SpringBootApplication
-public class LoanApplication {
+public class DocumentstorageApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LoanApplication.class, args);
+		SpringApplication.run(DocumentstorageApplication.class, args);
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://172.17.0.4:3306/bank_loan", "Bojana", "Bojana234");
+			java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://172.17.0.4:3306/documents", "Bojana", "Bojana234");
 	     	System.out.println("Connection is created successfully:");
 	     	
-	     	String query = "CREATE TABLE IF NOT EXISTS loan (id int NOT NULL AUTO_INCREMENT, currency varchar(255), area float, interest float, years int, loan_participation float, first_apartment tinyint, number_of_residents tinyint, uuid varchar(255), PRIMARY KEY (id) );";
+	     	String query = "CREATE TABLE IF NOT EXISTS document (id int NOT NULL AUTO_INCREMENT, document_base64 text, PRIMARY KEY (id) );";
 	     	PreparedStatement preparedStmt = conn.prepareStatement(query);
 	     	preparedStmt.execute();
 	     	conn.close();
@@ -24,7 +25,7 @@ public class LoanApplication {
 	    } catch (Exception e) {
 	        System.out.println(e);
 	    }
-	      
+		
 	}
 
 }
